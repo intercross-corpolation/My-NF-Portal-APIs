@@ -2,7 +2,7 @@ const { app } = require('@azure/functions');
 const { BlobServiceClient } = require('@azure/storage-blob');
 const connectionString = process.env.AzureWebJobsStorage; // local.settings.jsonから読み込む
 
-
+//デプロイテスト
 app.http('caliinfoupload', {
     methods: ['POST'],
     authLevel: 'anonymous',
