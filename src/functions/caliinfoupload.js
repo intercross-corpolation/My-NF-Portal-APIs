@@ -12,12 +12,12 @@ app.http('caliinfoupload', {
     try {
       
         const data = await request.json(); // リクエストボディからJSONデータを取得
-        const { subjectId,gender,groupId,drId,date } = data; // 被験者IDとDrIDを抽出
+        const { patientId,gender,groupId,drId,date } = data; // 被験者IDとDrIDを抽出
 
         // ID の検証 (任意)
-        if (!subjectId || !drId) {
-            console.log(`subjectId と drId は必須です`);
-            return { status: 400, body: "subjectId と drId は必須です。" };
+        if (!patientId || !drId) {
+            console.log(`patientId と drId は必須です`);
+            return { status: 400, body: "patientId と drId は必須です。" };
         }
 
         // Azure Blob Storage に接続
@@ -28,7 +28,7 @@ app.http('caliinfoupload', {
         // Blob (ファイル) 名を生成
         const directoryName = `${groupId}`; // groupid(病院）をディレクトリ名として使用
         const sanitizedDate = date.replace(/[:/]/g, '-'); 
-        const jsonName = `${subjectId}_name_${gender}_age_${drId}_C_${sanitizedDate}`;
+        const jsonName = `${patientId}_name_${gender}_age_${drId}_C_${sanitizedDate}`;
         const blobName = `${directoryName}/${jsonName}.json`; // ディレクトリ内にファイルを配置
        
         const blockBlobClient = containerClient.getBlockBlobClient(blobName);
