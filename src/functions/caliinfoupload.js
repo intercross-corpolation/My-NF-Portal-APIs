@@ -12,7 +12,9 @@ app.http('caliinfoupload', {
     try {
       
         const data = await request.json(); // リクエストボディからJSONデータを取得
-        const { patientId,gender,groupId,drId,date } = data; // 被験者IDとDrIDを抽出
+        const { patientInfo, date} = data; // patientInfoとdateを抽出(CalibrationInfoForUploadは未使用のため出力しない)
+ // 必須フィールドの抽出
+ const { patientId, drId, groupId, age, gender } = patientInfo;
 
         // ID の検証 (任意)
         if (!patientId || !drId) {
@@ -30,7 +32,8 @@ app.http('caliinfoupload', {
         const sanitizedDate = date.replace(/[:/]/g, '-'); 
         const jsonName = `${patientId}_name_${gender}_age_${drId}_C_${sanitizedDate}`;
         const blobName = `${directoryName}/${jsonName}.json`; // ディレクトリ内にファイルを配置
-       
+        context.log(`fileName ${blobName} `);
+        console.log(`fileName ${blobName} `);
         const blockBlobClient = containerClient.getBlockBlobClient(blobName);
 
         // JSONデータをアップロード
@@ -41,7 +44,9 @@ app.http('caliinfoupload', {
         return { body: `データがアップロードされました: ${blobName}` };
     } catch (error) {
         context.log('エラーが発生しました:', error.message);
-        return { status: 500, body: 'データの処理中にエラーが発生しました。' };
+        context.log(`fileName ${blobName} `);
+        console.log(`fileName ${blobName} `);
+        return { status: 500, body: 'データの処理中にエラーが発生しました。fileName ${blobName}' };
     }
 }
 });
