@@ -28,7 +28,7 @@ app.http('caliinfoupload', {
         const containerClient = blobServiceClient.getContainerClient('calibrationdatacontainer'); // コンテナ名を指定
 
         // Blob (ファイル) 名を生成
-        const directoryName = `${groupId}`; // groupid(病院）をディレクトリ名として使用
+        const directoryName = `${groupId}/SingleOccupant`; // groupid(病院）をディレクトリ名として使用
         const sanitizedDate = date.replace(/[:/]/g, '-'); 
         const jsonName = `${patientId}_name_${gender}_age_${drId}_C_${sanitizedDate}`;
         const blobName = `${directoryName}/${jsonName}.json`; // ディレクトリ内にファイルを配置
